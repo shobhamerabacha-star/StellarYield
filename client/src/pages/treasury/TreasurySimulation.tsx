@@ -47,7 +47,7 @@ const TreasurySimulation: React.FC = () => {
   function updateAlloc(index: number, field: keyof AllocationRow, value: string | number) {
     setAllocations((prev) => {
       const next = [...prev];
-      (next[index] as Record<string, unknown>)[field] = value;
+      (next[index] as unknown as Record<string, unknown>)[field] = value;
       return next;
     });
   }
