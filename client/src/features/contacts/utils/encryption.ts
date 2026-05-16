@@ -8,7 +8,7 @@
  * - Uses AES-GCM for authenticated encryption
  */
 
-import { ContactData, EncryptionKey } from '../types';
+import type { ContactData } from '../types';
 
 /**
  * Encryption configuration
@@ -68,6 +68,10 @@ export function generateIV(): Uint8Array {
   return crypto.getRandomValues(new Uint8Array(IV_LENGTH));
 }
 
+function toArrayBuffer(view: Uint8Array): ArrayBuffer {
+  return view.buffer.slice(view.byteOffset, view.byteOffset + view.byteLength) as ArrayBuffer;
+}
+
 /**
  * Encrypt contact data using AES-GCM
  * 
@@ -87,10 +91,10 @@ export async function encryptContactData(
     const encryptedBuffer = await crypto.subtle.encrypt(
       {
         name: ENCRYPTION_ALGORITHM,
-        iv,
+        iv: toArrayBuffer(iv),
       },
       key,
-      dataBytes
+      toArrayBuffer(dataBytes)
     );
     
     // Combine IV and encrypted data
@@ -130,10 +134,10 @@ export async function decryptContactData(
     const decryptedBuffer = await crypto.subtle.decrypt(
       {
         name: ENCRYPTION_ALGORITHM,
-        iv,
+        iv: toArrayBuffer(iv),
       },
       key,
-      encrypted
+      toArrayBuffer(encrypted)
     );
     
     const decoder = new TextDecoder();
