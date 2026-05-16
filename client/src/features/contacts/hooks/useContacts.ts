@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { useWallet } from '../../context/useWallet';
+import { useWallet } from '../../../context/useWallet';
 import type { Contact, ContactData, ContactSuggestion } from '../types';
 import { 
   deriveEncryptionKey, 
@@ -99,7 +99,6 @@ export function useContacts(): UseContactsReturn {
       return;
     }
 
-    const query = state.searchQuery.toLowerCase();
     const filtered = state.contacts.filter(_contact => {
       // Note: We can't filter by decrypted data here without the key
       // This would need to be done on the decrypted data after loading
@@ -336,7 +335,7 @@ export function useContacts(): UseContactsReturn {
   /**
    * Check for duplicate contacts
    */
-  const isDuplicate = useCallback((name: string, address: string, excludeId?: string): boolean => {
+  const isDuplicate = useCallback((_name: string, _address: string, _excludeId?: string): boolean => {
     // Note: This would need actual decryption of contact data
     // For now, returning false as placeholder
     return false;

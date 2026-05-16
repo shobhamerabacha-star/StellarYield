@@ -50,14 +50,38 @@ import {
   Calculator,
   TrendingUp,
   AlertTriangle,
+  Network,
+  Target,
   Vault as VaultIcon,
+  Zap,
 } from "lucide-react";
 import "./index.css";
 import SettingsModal from "./features/settings/SettingsModal";
 import AlertsModal from "./features/alerts/AlertsModal";
+import StrategyComparison from "./pages/strategy/StrategyComparison";
+import { FragmentationDashboard } from "./features/fragmentation";
+import { ReallocationTimelinePlanner } from "./portfolio/ReallocationTimelinePlanner";
 
 // Vault IDs available for APY alerts (matches protocol names from yieldService)
 const VAULT_OPTIONS = ["Blend", "Soroswap", "DeFindex"];
+
+function GoalPlannerPage() {
+  return (
+    <ReallocationTimelinePlanner
+      planName="Goal Planner"
+      status="draft"
+      steps={[
+        {
+          stepId: "goal-planner-draft",
+          scheduledAt: new Date().toISOString(),
+          expectedFeeUsd: 0,
+          expectedRecoveryHours: 0,
+          allocations: { Blend: 40, Soroswap: 30, DeFindex: 30 },
+        },
+      ]}
+    />
+  );
+}
 
 // Layout Component
 const RootLayout = () => {
